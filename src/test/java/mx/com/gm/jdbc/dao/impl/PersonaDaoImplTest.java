@@ -1,18 +1,19 @@
 package mx.com.gm.jdbc.dao.impl;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.h2.util.Permutations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 import mx.com.gm.jdbc.dao.PersonaDao;
 import mx.com.gm.jdbc.domain.Persona;
 
@@ -124,7 +125,7 @@ public class PersonaDaoImplTest {
 			persona.setApeMaterno("Zuniga");
 			persona.setEmail("rediazz83@gmail.com");
 			personaDao.createPersona(persona);
-			
+
 			persona = personaDao.getPersonaByEmail(persona);
 
 			log.info("Persona insertada: ".concat(persona.toString()));
@@ -132,6 +133,66 @@ public class PersonaDaoImplTest {
 			assertEquals("Cantidad de personas no coincide con el esperado.", 4, personaDao.contadorPersonas());
 
 			log.info("Fin test deberiaAgregarPersonaTest");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
+
+	@Test
+	public void deberiaActualizarPersonaTest() {
+		try {
+			log.info("Inicio test deberiaActualizarPersonaTest");
+
+			int idPersona = 1;
+			Persona persona = personaDao.findPersonaById(idPersona);
+
+			log.info("Persona a modificar (id='" + idPersona + "'): ".concat(persona.toString()));
+
+			persona.setNombre("Administrador");
+			persona.setApePaterno("Sistemas");
+			personaDao.updatePersona(persona);
+			
+			persona = personaDao.findPersonaById(idPersona);
+			
+			log.info("Persona a modificada (id='" + idPersona + "'): ".concat(persona.toString()));
+			
+			assertEquals("Nombre no coincide.", "Administrador", persona.getNombre());
+
+			log.info("Fin test deberiaActualizarPersonaTest");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
+	
+	@Test
+	public void deberiaEliminarPersonaTest() {
+		try {
+			log.info("Inicio test deberiaEliminarPersonaTest");
+
+			int idPersona = 2;
+			Persona persona = personaDao.findPersonaById(idPersona);
+
+			log.info("Persona a eliminar (id='" + idPersona + "'): ".concat(persona.toString()));
+
+			persona.setIdPersona(idPersona);
+			personaDao.deletePersona(persona);
+			
+			persona = personaDao.findPersonaById(idPersona);
+			
+			assertNull("No deben encontrarse coincidencias", persona);
+			
+			List<Persona> personas = personaDao.findAllPersonas();
+
+			int contadorPersonas = 0;
+			for (Persona alguien : personas) {
+				log.info(alguien);
+				contadorPersonas++;
+			}
+
+			assertEquals("Cantidad de personas no coincide con el esperado.", contadorPersonas,
+					personaDao.contadorPersonas());
+
+			log.info("Fin test deberiaEliminarPersonaTest");
 		} catch (Exception e) {
 			log.error("Error JDBC", e);
 		}
