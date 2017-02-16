@@ -4,13 +4,15 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.h2.util.Permutations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import junit.framework.Assert;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import mx.com.gm.jdbc.dao.PersonaDao;
 import mx.com.gm.jdbc.domain.Persona;
 
@@ -34,11 +36,11 @@ public class PersonaDaoImplTest {
 
 			int contadorPersonas = 0;
 			for (Persona persona : personas) {
-				log.info(persona.toString());
+				log.info(persona);
 				contadorPersonas++;
 			}
 
-			Assert.assertEquals("Cantidad de personas no coincide con el esperado.", contadorPersonas,
+			assertEquals("Cantidad de personas no coincide con el esperado.", contadorPersonas,
 					personaDao.contadorPersonas());
 
 			log.info("Fin test deberiaMostrarPersonas");
@@ -60,10 +62,30 @@ public class PersonaDaoImplTest {
 			log.info("Numero de personas encontradas por nombre '"
 					.concat(persona.getNombre().concat("': ").concat(String.valueOf(nroPersonasEncontradas))));
 
-			Assert.assertEquals("Cantidad de personas no coincide con el esperado.", COINCIDENCIAS_POR_NOMBRE,
+			assertEquals("Cantidad de personas no coincide con el esperado.", COINCIDENCIAS_POR_NOMBRE,
 					nroPersonasEncontradas);
 
 			log.info("Fin test contarPersonasPorNombreTest");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
+
+	@Test
+	public void deberiaEncontrarPersonaPorIdTest() {
+		try {
+			log.info("Inicio test deberiaEncontrarPersonaPorIdTest");
+
+			int idPersona = 1;
+			Persona persona = personaDao.findPersonaById(idPersona);
+
+			assertNotNull("No se encontraron coincidencias", persona);
+			
+			log.info("Persona recuperada (id='" + idPersona + "'): " + persona);
+			
+			assertEquals("El nombre de la persona no coincide con el esperado.", "Admin", persona.getNombre());
+
+			log.info("Fin test deberiaEncontrarPersonaPorIdTest");
 		} catch (Exception e) {
 			log.error("Error JDBC", e);
 		}

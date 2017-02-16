@@ -12,7 +12,7 @@ public interface PersonaDao {
 	
 	void deletePersona(Persona persona);
 	
-	Persona findPersonaById(long id);
+	Persona findPersonaById(long idPersona);
 	
 	List<Persona> findAllPersonas();
 	

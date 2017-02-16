@@ -11,8 +11,6 @@ import mx.com.gm.jdbc.domain.Persona;
 
 public class PersonaRowMapper implements RowMapper<Persona> {
 	
-	private static Log log = LogFactory.getLog(PersonaRowMapper.class);
-	
 	@Override
 	public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Persona persona = new Persona();
@@ -21,9 +19,6 @@ public class PersonaRowMapper implements RowMapper<Persona> {
 		persona.setApePaterno(rs.getString("ape_paterno"));
 		persona.setApeMaterno(rs.getString("ape_materno"));
 		persona.setEmail(rs.getString("email"));
-		
-		log.info("rowNum: " + rowNum);
-		
 		return persona;
 	}
 

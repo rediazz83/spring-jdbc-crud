@@ -5,6 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.com.gm.jdbc.dao.PersonaDao;
 import mx.com.gm.jdbc.domain.Persona;
+import mx.com.gm.jdbc.rowmappers.PersonaRowMapper;
 
 @Repository
 public class PersonaDaoImpl implements PersonaDao {
@@ -59,9 +61,15 @@ public class PersonaDaoImpl implements PersonaDao {
 	}
 
 	@Override
-	public Persona findPersonaById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Persona findPersonaById(long idPersona) {
+		Persona persona = null;
+		try {
+			persona = this.jdbcTemplate.queryForObject(SQL_SELECT_PERSONA_BY_ID, new PersonaRowMapper(), idPersona);
+		} catch (EmptyResultDataAccessException e) {
+			persona = null;
+		}		
+		
+		return persona;
 	}
 
 	@Override
