@@ -1,4 +1,4 @@
-package test;
+package mx.com.gm.jdbc;
 
 import static org.junit.Assert.assertEquals;
 
