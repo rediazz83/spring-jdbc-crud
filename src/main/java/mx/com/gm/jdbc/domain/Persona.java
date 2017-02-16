@@ -1,14 +1,15 @@
 package mx.com.gm.jdbc.domain;
 
 public class Persona {
-	
+
 	private long idPersona;
 	private String nombre;
 	private String apePaterno;
 	private String apeMaterno;
 	private String email;
 
-	public Persona() { }
+	public Persona() {
+	}
 
 	public Persona(long idPersona) {
 		this.idPersona = idPersona;
@@ -56,8 +57,8 @@ public class Persona {
 
 	@Override
 	public String toString() {
-		return "Persona [idPersona=" + idPersona + ", nombre=" + nombre + ", apePaterno=" + apePaterno + ", apeMaterno=" + apeMaterno + ", email="
-				+ email + "]";
+		return "Persona [idPersona=" + idPersona + ", nombre=" + nombre + ", apePaterno=" + apePaterno + ", apeMaterno="
+				+ apeMaterno + ", email=" + email + "]";
 	}
 
 }

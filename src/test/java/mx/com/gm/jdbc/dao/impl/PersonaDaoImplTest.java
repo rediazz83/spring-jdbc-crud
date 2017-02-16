@@ -80,9 +80,9 @@ public class PersonaDaoImplTest {
 			Persona persona = personaDao.findPersonaById(idPersona);
 
 			assertNotNull("No se encontraron coincidencias", persona);
-			
+
 			log.info("Persona recuperada (id='" + idPersona + "'): " + persona);
-			
+
 			assertEquals("El nombre de la persona no coincide con el esperado.", "Admin", persona.getNombre());
 
 			log.info("Fin test deberiaEncontrarPersonaPorIdTest");
@@ -90,7 +90,7 @@ public class PersonaDaoImplTest {
 			log.error("Error JDBC", e);
 		}
 	}
-	
+
 	@Test
 	public void deberiaEncontrarPersonasPorMailTest() {
 		try {
@@ -98,9 +98,9 @@ public class PersonaDaoImplTest {
 
 			Persona persona = new Persona();
 			persona.setEmail("jrodriguez@gmail.com");
-			
+
 			persona = personaDao.getPersonaByEmail(persona);
-			
+
 			assertNotNull("No se encontraron coincidencias", persona);
 
 			log.info("Persona recuperada (email='" + persona.getEmail() + "'): " + persona);
@@ -111,4 +111,29 @@ public class PersonaDaoImplTest {
 		}
 	}
 
+	@Test
+	public void deberiaAgregarPersonaTest() {
+		try {
+			log.info("Inicio test deberiaAgregarPersonaTest");
+
+			assertEquals("Cantidad de personas no coincide con el esperado.", 3, personaDao.contadorPersonas());
+
+			Persona persona = new Persona();
+			persona.setNombre("Rodrigo");
+			persona.setApePaterno("Diaz");
+			persona.setApeMaterno("Zuniga");
+			persona.setEmail("rediazz83@gmail.com");
+			personaDao.createPersona(persona);
+			
+			persona = personaDao.getPersonaByEmail(persona);
+
+			log.info("Persona insertada: ".concat(persona.toString()));
+
+			assertEquals("Cantidad de personas no coincide con el esperado.", 4, personaDao.contadorPersonas());
+
+			log.info("Fin test deberiaAgregarPersonaTest");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
 }

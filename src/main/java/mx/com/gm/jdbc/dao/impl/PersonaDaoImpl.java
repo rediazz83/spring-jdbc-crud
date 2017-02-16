@@ -45,7 +45,8 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	@Override
 	public void createPersona(Persona persona) {
-		// TODO Auto-generated method stub
+		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(persona);
+		this.namedParameterJdbcTemplate.update(SQL_INSERT_PERSONA, namedParameters);
 
 	}
 
