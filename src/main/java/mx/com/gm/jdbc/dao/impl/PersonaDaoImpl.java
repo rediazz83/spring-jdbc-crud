@@ -7,7 +7,9 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -28,8 +30,9 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	private static final String SQL_DELETE_PERSONA = "DELETE FROM PERSONA WHERE id_persona = :idPersona";
 	private static final String SQL_SELECT_PERSONA = "SELECT id_persona, nombre, ape_paterno, ape_materno, email FROM PERSONA";
-	private static final String SQL_SELECT_PERSONA_BY_ID = SQL_SELECT_PERSONA + " WHERE id_persona = ?";
+	private static final String SQL_SELECT_PERSONA_BY_ID = SQL_SELECT_PERSONA + " WHERE id_persona = ?";	
 	private static final String SQL_COUNT_PERSONA = "SELECT count(*) FROM PERSONA";
+	private static final String SQL_COUNT_BY_NAME = SQL_COUNT_PERSONA + " WHERE nombre = :nombre";
 
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -69,8 +72,8 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	@Override
 	public int contadorPersonasPorNombre(Persona persona) {
-		// TODO Auto-generated method stub
-		return 0;
+		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(persona);
+		return this.namedParameterJdbcTemplate.queryForInt(SQL_COUNT_BY_NAME, namedParameters);
 	}
 
 	@Override

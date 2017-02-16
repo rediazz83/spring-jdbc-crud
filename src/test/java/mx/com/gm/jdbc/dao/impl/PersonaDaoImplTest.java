@@ -18,6 +18,8 @@ import mx.com.gm.jdbc.domain.Persona;
 @ContextConfiguration(locations = { "classpath:datasource-test.xml", "classpath:spring-context.xml" })
 public class PersonaDaoImplTest {
 
+	private static final int COINCIDENCIAS_POR_NOMBRE = 2;
+
 	private static Log log = LogFactory.getLog(PersonaDaoImplTest.class);
 
 	@Autowired
@@ -38,6 +40,30 @@ public class PersonaDaoImplTest {
 
 			Assert.assertEquals("Cantidad de personas no coincide con el esperado.", contadorPersonas,
 					personaDao.contadorPersonas());
+
+			log.info("Fin test deberiaMostrarPersonas");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
+
+	@Test
+	public void contarPersonasPorNombreTest() {
+		try {
+			log.info("Inicio test contarPersonasPorNombreTest");
+
+			Persona persona = new Persona();
+			persona.setNombre("Juan");
+
+			int nroPersonasEncontradas = personaDao.contadorPersonasPorNombre(persona);
+
+			log.info("Numero de personas encontradas por nombre '"
+					.concat(persona.getNombre().concat("': ").concat(String.valueOf(nroPersonasEncontradas))));
+
+			Assert.assertEquals("Cantidad de personas no coincide con el esperado.", COINCIDENCIAS_POR_NOMBRE,
+					nroPersonasEncontradas);
+
+			log.info("Fin test contarPersonasPorNombreTest");
 		} catch (Exception e) {
 			log.error("Error JDBC", e);
 		}

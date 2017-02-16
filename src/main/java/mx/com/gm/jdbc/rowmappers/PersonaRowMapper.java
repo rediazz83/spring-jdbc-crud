@@ -7,12 +7,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.RowMapper;
 
-import mx.com.gm.jdbc.JdbcTest;
 import mx.com.gm.jdbc.domain.Persona;
 
 public class PersonaRowMapper implements RowMapper<Persona> {
 	
-	private static Log log = LogFactory.getLog(JdbcTest.class);
+	private static Log log = LogFactory.getLog(PersonaRowMapper.class);
 	
 	@Override
 	public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
