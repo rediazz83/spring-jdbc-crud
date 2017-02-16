@@ -90,5 +90,25 @@ public class PersonaDaoImplTest {
 			log.error("Error JDBC", e);
 		}
 	}
+	
+	@Test
+	public void deberiaEncontrarPersonasPorMailTest() {
+		try {
+			log.info("Inicio test deberiaEncontrarPersonasPorMailTest");
+
+			Persona persona = new Persona();
+			persona.setEmail("jrodriguez@gmail.com");
+			
+			persona = personaDao.getPersonaByEmail(persona);
+			
+			assertNotNull("No se encontraron coincidencias", persona);
+
+			log.info("Persona recuperada (email='" + persona.getEmail() + "'): " + persona);
+
+			log.info("Fin test deberiaEncontrarPersonasPorMailTest");
+		} catch (Exception e) {
+			log.error("Error JDBC", e);
+		}
+	}
 
 }

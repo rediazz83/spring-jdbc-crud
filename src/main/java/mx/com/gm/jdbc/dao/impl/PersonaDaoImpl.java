@@ -32,7 +32,8 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	private static final String SQL_DELETE_PERSONA = "DELETE FROM PERSONA WHERE id_persona = :idPersona";
 	private static final String SQL_SELECT_PERSONA = "SELECT id_persona, nombre, ape_paterno, ape_materno, email FROM PERSONA";
-	private static final String SQL_SELECT_PERSONA_BY_ID = SQL_SELECT_PERSONA + " WHERE id_persona = ?";	
+	private static final String SQL_SELECT_PERSONA_BY_ID = SQL_SELECT_PERSONA + " WHERE id_persona = ?";
+	private static final String SQL_SELECT_PERSONA_BY_EMAIL = SQL_SELECT_PERSONA + " WHERE email = :email";
 	private static final String SQL_COUNT_PERSONA = "SELECT count(*) FROM PERSONA";
 	private static final String SQL_COUNT_BY_NAME = SQL_COUNT_PERSONA + " WHERE nombre = :nombre";
 
@@ -67,8 +68,8 @@ public class PersonaDaoImpl implements PersonaDao {
 			persona = this.jdbcTemplate.queryForObject(SQL_SELECT_PERSONA_BY_ID, new PersonaRowMapper(), idPersona);
 		} catch (EmptyResultDataAccessException e) {
 			persona = null;
-		}		
-		
+		}
+
 		return persona;
 	}
 
@@ -91,8 +92,9 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	@Override
 	public Persona getPersonaByEmail(Persona persona) {
-		// TODO Auto-generated method stub
-		return null;
+		SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(persona);
+		return this.namedParameterJdbcTemplate.queryForObject(SQL_SELECT_PERSONA_BY_EMAIL, namedParameters,
+				new PersonaRowMapper());
 	}
 
 }
