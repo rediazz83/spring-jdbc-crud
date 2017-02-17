@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import junit.framework.Assert;
 import mx.com.gm.jdbc.dao.PersonaDao;
 import mx.com.gm.jdbc.domain.Persona;
 
@@ -30,6 +31,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void deberiaMostrarPersonas() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaMostrarPersonas");
 
@@ -52,6 +54,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void contarPersonasPorNombreTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test contarPersonasPorNombreTest");
 
@@ -74,6 +77,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void deberiaEncontrarPersonaPorIdTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaEncontrarPersonaPorIdTest");
 
@@ -94,6 +98,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void deberiaEncontrarPersonasPorMailTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaEncontrarPersonasPorMailTest");
 
@@ -114,6 +119,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void deberiaAgregarPersonaTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaAgregarPersonaTest");
 
@@ -140,6 +146,7 @@ public class PersonaDaoImplTest {
 
 	@Test
 	public void deberiaActualizarPersonaTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaActualizarPersonaTest");
 
@@ -166,6 +173,7 @@ public class PersonaDaoImplTest {
 	
 	@Test
 	public void deberiaEliminarPersonaTest() {
+		System.out.println();
 		try {
 			log.info("Inicio test deberiaEliminarPersonaTest");
 
@@ -196,5 +204,29 @@ public class PersonaDaoImplTest {
 		} catch (Exception e) {
 			log.error("Error JDBC", e);
 		}
+	}
+	
+	@Test
+	public void compruebaOperacionesTest() {
+		System.out.println();
+		log.info("Inicio test compruebaOperacionesTest");
+		
+		Assert.assertEquals(3, personaDao.contadorPersonas());
+		
+		this.desplegarPersonas();
+				
+		log.info("fin test compruebaOperacionesTest");
+	}
+	
+	private int desplegarPersonas() {
+		List<Persona> personas = personaDao.findAllPersonas();
+		
+		int contadorPersonas = 0;
+		for(Persona persona: personas) {
+			log.info("Persona: ".concat(persona.toString()));
+			contadorPersonas++;
+		}
+		
+		return contadorPersonas;
 	}
 }

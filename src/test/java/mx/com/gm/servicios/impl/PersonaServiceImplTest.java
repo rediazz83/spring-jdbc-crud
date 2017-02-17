@@ -31,13 +31,48 @@ public class PersonaServiceImplTest {
 	@Test
 	@Transactional
 	public void deberiaMostrarPersonas() {
-		log.info("Inicio test deberiaMostrarPersonas");
-				
-		int contadorPersonas = this.desplegarPersonas();
-		
-		Assert.assertEquals(contadorPersonas, personaDao.contadorPersonas());
-		
-		log.info("fin test deberiaMostrarPersonas");
+		System.out.println();
+		try {
+			log.info("Inicio test deberiaMostrarPersonas");
+			
+			int contadorPersonas = this.desplegarPersonas();
+			
+			Assert.assertEquals(contadorPersonas, personaDao.contadorPersonas());
+			
+			log.info("fin test deberiaMostrarPersonas");	
+		} catch (Exception e) {
+			log.error("Error servicio", e);
+		}
+	}
+	
+	@Test
+	@Transactional
+	public void operacionesTest() {
+		System.out.println();
+		try {
+			log.info("Inicio test operacionesTest");
+			
+			Persona persona = new Persona();
+			persona.setNombre("Rodrigo");
+			persona.setApePaterno("Diaz");
+			persona.setApeMaterno("Zuniga");
+			persona.setEmail("rediazz83@gmail.com");
+			
+			personaService.agregarPersona(persona);
+			
+			Assert.assertEquals(4, personaDao.contadorPersonas());
+			
+			persona = personaService.recuperarPersona(new Persona(1));
+			persona.setNombre("Administrador");
+			
+			personaService.modificarPersona(persona);
+			
+			this.desplegarPersonas();
+					
+			log.info("fin test operacionesTest");	
+		} catch (Exception e) {
+			log.error("Error servicio", e);
+		}
 	}
 	
 	private int desplegarPersonas() {
